@@ -11,9 +11,9 @@ function Book(props) {
   let button;
   let {book, handleSelectedBook, removeBookToRead}=props
   if (props.add) {
-    button=<GenericButton handleButtonClick={handleSelectedBook} book={book} message="Add To List" bgcolor="#5ACCCC" color="#FFFF"/>
+    button=<GenericButton handleButtonClick={handleSelectedBook} book={book} message="Add To Reading List" bgcolor="#5ACCCC" color="#FFFF"/>
   } else {
-    button=<GenericButton handleButtonClick={removeBookToRead} book={book} message="Remove" bgcolor="#5ACCCC" color="#FFFF" />
+    button=<GenericButton handleButtonClick={removeBookToRead} book={book} message="Remove From Reading List" bgcolor="#5ACCCC" color="#FFFF" />
   }
 
   return (
