@@ -10,9 +10,13 @@ import FormControl from "@mui/material/FormControl";
 import { Button, Typography } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "./getbooks.css";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
+
 const MenuProps = {
   PaperProps: {
     style: {
@@ -21,7 +25,6 @@ const MenuProps = {
     },
   },
 };
-
 
 function getStyles(name, personName, theme) {
   return {
@@ -37,6 +40,7 @@ function GetBooks() {
   const [booksList, setBooksList] = useState([]);
   const [books, setBooks] = useState([]);
   const [selectedBooks, setSelectedBooks] = useState([]);
+  const [add, setAdd]  = useState(true)
 
   const handleSelectedBook = (book) => {
     setSelectedBooks([...selectedBooks, book]);
@@ -44,20 +48,33 @@ function GetBooks() {
 
   const viewBooksToRead = () => {
     setBooks(selectedBooks);
+    setAdd(false)
   };
 
   const viewBooksList = () => {
     setBooks(booksList);
+    setAdd(true)
   };
 
   const removeBookToRead = (bookToRemove) => {
-    const updatedBooksList= books.filter((book)=>
-    book.title !== bookToRemove.title)
-    setBooks(updatedBooksList)
-  }
+    const updatedBooksList = books.filter(
+      (book) => book.title !== bookToRemove.title
+    );
+    setBooks(updatedBooksList);
+  };
+
+  const handleTitleSearch = (event, book) => {
+    if(book!=null) {
+      const filteredItems = books.filter((bookItem) =>
+        bookItem.title.toLowerCase().includes(book.title.toLowerCase())
+        );
+        setBooks(filteredItems)
+    }
+  };
 
   useEffect(() => {
     console.log(data);
+
     if (data) {
       setBooksList(data.books);
       setBooks(data.books);
@@ -78,6 +95,7 @@ function GetBooks() {
   };
   return (
     <div>
+      <div></div>
       <div class="viewButtons">
         <Button
           onClick={() => viewBooksList()}
@@ -102,37 +120,43 @@ function GetBooks() {
       </div>
       <div class="selectform">
         <div class="form">
-          <FormControl sx={{ m: 1, width: 500 }}>
-            <InputLabel id="demo-multiple-name-label">Name</InputLabel>
-            <Select
-              labelId="demo-multiple-name-label"
-              id="demo-multiple-name"
-              multiple
-              value={personName}
-              onChange={handleChange}
-              input={<OutlinedInput label="Name" />}
-              MenuProps={MenuProps}
-            >
-              {books.map((book) => (
-                <MenuItem
-                  key={book.author}
-                  value={book.author}
-                  style={getStyles(book.author, personName, theme)}
-                >
-                  <img
-                    src={`/${book.coverPhotoURL}`}
-                    style={{
-                      height: "30px",
-                      width: "30px",
-                      borderRadius: "50%",
-                      marginRight: "10px",
-                    }}
-                  />
-                  {book.author}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Autocomplete
+            id="country-select-demo"
+            sx={{ width: 500 }}
+            // options={countries}
+            options={books}
+            autoHighlight
+            getOptionLabel={(option) => option.title}
+            onChange={(event, value) => handleTitleSearch(event,value)} // prints the selected value
+            renderOption={(props, option) => (
+              <Box
+                component="li"
+                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                {...props}
+              >
+                <img
+                  loading="lazy"
+                  width="20"
+                  srcSet={`/${option.coverPhotoURL}`}
+                  src={`/${option.coverPhotoURL}`}
+                  alt=""
+                />
+                {option.title}
+              </Box>
+            )}
+            renderInput={(params) => (
+              <TextField
+                onClick={() => handleTitleSearch}
+                {...params}
+                label="Choose a country"
+                inputProps={{
+                  ...params.inputProps,
+                  autoComplete: "new-password", // disable autocomplete and autofill
+                }}
+              />
+            )}
+          />
+          
         </div>
       </div>
 
@@ -140,9 +164,13 @@ function GetBooks() {
         {books.map((book) => {
           return (
             <div>
-              <h1>
-                <Book book={book} handleSelectedBook={handleSelectedBook} removeBookToRead={removeBookToRead}/>
-              </h1>
+              { book &&
+                <Book
+                  book={book}
+                  add={add}
+                  handleSelectedBook={handleSelectedBook}
+                  removeBookToRead={removeBookToRead}
+                />}
             </div>
           );
         })}
@@ -150,5 +178,6 @@ function GetBooks() {
     </div>
   );
 }
+
 
 export default GetBooks;

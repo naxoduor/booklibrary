@@ -5,7 +5,35 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
+import AddRemoveButton from "./AddRemoveButton";
 function Book(props) {
+
+  let button;
+  let {book, handleSelectedBook, removeBookToRead}=props
+  if (props.add) {
+    button=<AddRemoveButton addOrRemoveBook={handleSelectedBook} book={book} message="Add To List"/>
+  //   button = <Button onClick={() => props.handleSelectedBook(props.book)}
+  //   className="addButton"
+  //   style={{
+  //     backgroundColor: "rgb(211, 211, 211)",
+  //     borderRadius: "5px",
+  //   }}
+  // >
+  //   <Typography>Add To List</Typography>
+  // </Button>
+  } else {
+    button=<AddRemoveButton addOrRemoveBook={removeBookToRead} book={book}/>
+    button = <Button onClick={() => props.removeBookToRead(props.book)}
+    className="addButton"
+    style={{
+      backgroundColor: "rgb(211, 211, 211)",
+      borderRadius: "5px",
+    }}
+  >
+    <Typography>Remove</Typography>
+  </Button>
+  }
+
   return (
     <div>
       <Card sx={{ maxWidth: 345 }}>
@@ -24,7 +52,10 @@ function Book(props) {
               {props.book.author}
             </Typography>
           </CardContent>
-          <Button onClick={() => props.handleSelectedBook(props.book)}
+          
+          {button}
+
+          {/* <Button onClick={() => props.handleSelectedBook(props.book)}
             className="addButton"
             style={{
               backgroundColor: "rgb(211, 211, 211)",
@@ -41,7 +72,7 @@ function Book(props) {
             }}
           >
             <Typography>Remove</Typography>
-          </Button>
+          </Button> */}
         </CardActionArea>
       </Card>
     </div>
