@@ -4,36 +4,16 @@ import { LOAD_BOOKS } from "../GraphQL/Queries";
 import Book from "./Book";
 import { Theme, useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import { Button, Typography } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import "./getbooks.css";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import GenericButton from "./GenericButton";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
 
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
 
 function GetBooks() {
   const { error, loading, data } = useQuery(LOAD_BOOKS);
@@ -81,49 +61,18 @@ function GetBooks() {
     }
   }, [data]);
 
-  const theme = useTheme();
-  const [personName, setPersonName] = useState([]);
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
   return (
-    <div>
+    <div class="container">
       <div></div>
       <div class="viewButtons">
-        <Button
-          onClick={() => viewBooksList()}
-          className="addButton"
-          style={{
-            backgroundColor: "rgb(211, 211, 211)",
-            borderRadius: "5px",
-          }}
-        >
-          <Typography>View Books List</Typography>
-        </Button>
-        <Button
-          onClick={() => viewBooksToRead()}
-          className="addButton"
-          style={{
-            backgroundColor: "rgb(211, 211, 211)",
-            borderRadius: "5px",
-          }}
-        >
-          <Typography>View Books To Read</Typography>
-        </Button>
+      <GenericButton handleButtonClick={viewBooksList} book={null} message="View Books List" bgcolor="#335C6E" color="#FFFF"/>
+      <GenericButton handleButtonClick={viewBooksToRead} book={null} message="ViewBooksToRead" bgcolor="#335C6E" color="#FFFF"/>
       </div>
       <div class="selectform">
         <div class="form">
           <Autocomplete
             id="country-select-demo"
             sx={{ width: 500 }}
-            // options={countries}
             options={books}
             autoHighlight
             getOptionLabel={(option) => option.title}
@@ -148,7 +97,7 @@ function GetBooks() {
               <TextField
                 onClick={() => handleTitleSearch}
                 {...params}
-                label="Choose a country"
+                label="Choose a Book Title"
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: "new-password", // disable autocomplete and autofill

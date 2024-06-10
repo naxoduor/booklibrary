@@ -1,14 +1,20 @@
+.container {
+    margin: auto;
+}
 .selectform{
     display: flex;
     justify-content: space-around;
     width: 100%;
 }
 .booklisting{
+    margin: auto;
+    width: 90%;
     display:flex;
     flex: 1;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
+    padding-top: 20px;
 }
 
 .viewButtons{
