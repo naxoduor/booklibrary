@@ -1,0 +1,26 @@
+.selectform{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+.booklisting{
+    display:flex;
+    flex: 1;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.viewButtons{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.form{
+    width: 500px
+}
+
+.check{
+    background-color: aqua;
+}
