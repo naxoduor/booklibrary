@@ -64,7 +64,7 @@ function GetBooks() {
       <div></div>
       <div class="viewButtons">
       <GenericButton handleButtonClick={viewBooksList} book={null} message="View Books List" bgcolor="#335C6E" color="#FFFF"/>
-      <GenericButton handleButtonClick={viewBooksToRead} book={null} message="View Readig List" bgcolor="#335C6E" color="#FFFF"/>
+      <GenericButton handleButtonClick={viewBooksToRead} book={null} message="View Reading List" bgcolor="#335C6E" color="#FFFF"/>
       </div>
       <div class="selectform">
         <div class="form">
